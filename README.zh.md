@@ -11,4 +11,4 @@
 
 | 控制器类型 | GIF | 训练代码 |
 |--- | --- | --- |
-|  Teacher-Student  |  ![img](https://i.imgur.com/wjR8p4U.gif)   |   [genesis_lr](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts)  |
+|  Teacher-Student  |  [![img](https://i.ibb.co/fzGfQGcX/0Ae-Nnc8.gif)](https://i.ibb.co/fzGfQGcX/0Ae-Nnc8.gif)   |   [genesis_lr](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts)  |
