@@ -32,4 +32,4 @@
 | 控制器类型 | GIF | 训练代码 |
 |--- | --- | --- |
 |  Teacher-Student  | ![](https://github.com/lupinjia/demo_imgs/blob/master/ts_demo.gif) | [genesis_lr/go2_ts](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts) |
-| Explicit Estimator |  | [genesis_lr/go2_ee](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ee) |
+| Explicit Estimator | ![](https://raw.githubusercontent.com/lupinjia/demo_imgs/refs/heads/master/ee_demo.gif) | [genesis_lr/go2_ee](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ee) |
