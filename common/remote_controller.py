@@ -1,5 +1,14 @@
 import struct
 
+class Button:
+    def __init__(self):
+        self.pressed = 0
+        self.on_press = 0
+        self.on_release = 0
+    def update(self, new_state):
+        self.on_press = new_state != self.pressed if new_state else 0
+        self.on_release = 0 if new_state else new_state != self.pressed
+        self.pressed = new_state
 
 class KeyMap:
     R1 = 0
@@ -26,13 +35,14 @@ class RemoteController:
         self.ly = 0
         self.rx = 0
         self.ry = 0
-        self.button = [0] * 16
+        self.button = [Button() for _ in range(16)]
 
     def set(self, data):
         # wireless_remote
         keys = struct.unpack("H", data[2:4])[0]
         for i in range(16):
-            self.button[i] = (keys & (1 << i)) >> i
+            new_state = (keys & (1 << i)) >> i
+            self.button[i].update(new_state)
         self.lx = struct.unpack("f", data[4:8])[0]
         self.rx = struct.unpack("f", data[8:12])[0]
         self.ry = struct.unpack("f", data[12:16])[0]

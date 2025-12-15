@@ -23,3 +23,8 @@ def transform_imu_data(waist_yaw, waist_yaw_omega, imu_quat, imu_omega):
     R_pelvis = np.dot(R_torso, RzWaist.T)
     w = np.dot(RzWaist, imu_omega[0]) - np.array([0, 0, waist_yaw_omega])
     return R.from_matrix(R_pelvis).as_quat()[[3, 0, 1, 2]], w
+
+def wrap_to_pi(angle):
+    angle %= 2 * np.pi
+    angle -= 2 * np.pi * (angle > np.pi)
+    return angle

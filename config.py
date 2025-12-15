@@ -10,15 +10,8 @@ class Config:
             self.control_dt = config["control_dt"]
             self.communication_dt = config["communication_dt"]
 
-            self.msg_type = config["msg_type"]
-
-            self.weak_motor = []
-            if "weak_motor" in config:
-                self.weak_motor = config["weak_motor"]
-
             self.lowcmd_topic = config["lowcmd_topic"]
             self.lowstate_topic = config["lowstate_topic"]
-
             self.policy_path = config["policy_path"]
 
             self.leg_joint2motor_idx = config["leg_joint2motor_idx"]
@@ -35,6 +28,7 @@ class Config:
             self.action_scale = config["action_scale"]
             self.cmd_scale = np.array(config["cmd_scale"], dtype=np.float32)
             self.max_cmd = np.array(config["max_cmd"], dtype=np.float32)
-
+            
             self.num_actions = config["num_actions"]
-            self.num_obs = config["num_obs"]
+            self.num_single_obs = config["num_single_obs"]
+            self.frame_stack = config["frame_stack"]
