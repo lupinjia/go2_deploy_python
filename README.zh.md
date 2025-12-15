@@ -7,8 +7,29 @@
 - scipy
 - pyyaml
 
+## 使用
+
+- TS Controller (sim)
+    
+  ```bash
+  python deploy.py --config=ts.yaml --type=ts
+  ```
+- TS Controller (real)
+  
+  ```bash
+  python deploy.py --config=ts.yaml --type=ts --interface=your_ethernet
+  ```
+  interface参数应当为你的电脑的以太网卡名称. 该名称可以通过`ifconfig`命令查询.
+- EE Controller (sim)
+
+  ```bash
+  python deploy.py --config=ee.yaml --type=ee
+  ```
+
+
 ## 支持的控制器
 
 | 控制器类型 | GIF | 训练代码 |
 |--- | --- | --- |
-|  Teacher-Student  |  ![](https://github.com/lupinjia/demo_imgs/blob/master/ts_demo.gif)   |   [genesis_lr/go2_ts](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts)  |
+|  Teacher-Student  | ![](https://github.com/lupinjia/demo_imgs/blob/master/ts_demo.gif) | [genesis_lr/go2_ts](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts) |
+| Explicit Estimator |  | [genesis_lr/go2_ee](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ee) |

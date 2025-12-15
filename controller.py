@@ -276,4 +276,56 @@ class TSController:
             self.low_cmd.motor_cmd[motor_idx].kd = self.config.ctrl_kd
             self.low_cmd.motor_cmd[motor_idx].tau = 0
     
-    
+# Explicit Estimator Controller
+class EEController(TSController):
+    # ovveride calculate function
+    def calculate(self):
+        # Get the current joint position and velocity
+        for i in range(len(self.config.leg_joint2motor_idx)):
+            self.qj[i] = self.low_state.motor_state[self.config.leg_joint2motor_idx[i]].q
+            self.dqj[i] = self.low_state.motor_state[self.config.leg_joint2motor_idx[i]].dq
+
+        # imu_state quaternion: w, x, y, z
+        quat = self.low_state.imu_state.quaternion
+        ang_vel = np.array([self.low_state.imu_state.gyroscope], dtype=np.float32)
+        self.euler = self.low_state.imu_state.rpy
+
+        # create observation
+        gravity_orientation = get_gravity_orientation(quat)
+        qj_obs = self.qj.copy()
+        dqj_obs = self.dqj.copy()
+        qj_obs = (qj_obs - self.config.default_angles) * self.config.dof_pos_scale
+        dqj_obs = dqj_obs * self.config.dof_vel_scale
+        ang_vel = ang_vel * self.config.ang_vel_scale
+
+        self.cmd[0] = self.remote_controller.ly
+        self.cmd[1] = self.remote_controller.lx * -1
+        self.cmd[2] = self.remote_controller.rx * -1
+
+        num_actions = self.config.num_actions
+        self.cur_obs[:3] = self.cmd * self.config.cmd_scale * self.config.max_cmd
+        self.cur_obs[3:6] = gravity_orientation
+        self.cur_obs[6:9] = ang_vel
+        self.cur_obs[9 : 9 + num_actions] = qj_obs
+        self.cur_obs[9 + num_actions : 9 + num_actions * 2] = dqj_obs
+        self.cur_obs[9 + num_actions * 2 : 9 + num_actions * 3] = self.action
+        
+        self.obs_deque.append(self.cur_obs.copy())
+        self.obs_history = np.concatenate([self.obs_deque[i] for i in range(len(self.obs_deque))], 
+                                  axis=0)
+
+        # Get the action from the policy network
+        obs_history_tensor = torch.from_numpy(self.obs_history).unsqueeze(0)
+        self.action = self.policy(obs_history_tensor).detach().numpy().squeeze()
+        
+        # transform action to target_dof_pos
+        target_dof_pos = self.config.default_angles + self.action * self.config.action_scale
+
+        # Build low cmd
+        for i in range(len(self.config.leg_joint2motor_idx)):
+            motor_idx = self.config.leg_joint2motor_idx[i]
+            self.low_cmd.motor_cmd[motor_idx].q = target_dof_pos[i]
+            self.low_cmd.motor_cmd[motor_idx].dq = 0
+            self.low_cmd.motor_cmd[motor_idx].kp = self.config.ctrl_kp
+            self.low_cmd.motor_cmd[motor_idx].kd = self.config.ctrl_kd
+            self.low_cmd.motor_cmd[motor_idx].tau = 0

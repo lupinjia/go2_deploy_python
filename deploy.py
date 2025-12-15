@@ -3,6 +3,7 @@ from controller import *
 if __name__ == "__main__":
     import argparse
 
+    # run ts controller in sim by default
     parser = argparse.ArgumentParser()
     parser.add_argument('--interface', '-i', type=str, default="lo", help="network interface")
     parser.add_argument("--config", type=str, default="ts.yaml", help="config file name in the configs folder")
@@ -21,6 +22,10 @@ if __name__ == "__main__":
         
     if args.type == "ts":
         controller = TSController(config, args.interface)
+    elif args.type == "ee":
+        controller = EEController(config, args.interface)
+    else:
+        raise ValueError(f"Unsupported controller type: {args.type}")
     
     while True:
         time.sleep(1)

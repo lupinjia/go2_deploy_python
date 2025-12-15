@@ -7,8 +7,28 @@ This project is an modification of [original python deployment code provided by 
 - scipy
 - pyyaml
 
-## Supported Controller
+## Usage
+
+- TS Controller (sim)
+    
+  ```bash
+  python deploy.py --config=ts.yaml --type=ts
+  ```
+- TS Controller (real)
+  
+  ```bash
+  python deploy.py --config=ts.yaml --type=ts --interface=your_ethernet
+  ```
+  The interface should be the name of your ethernet card. It can be seen by running `ifconfig` in the terminal.
+- EE Controller (sim)
+
+  ```bash
+  python deploy.py --config=ee.yaml --type=ee
+  ```
+
+## Demo
 
 | Controller Type | GIF | Training Code |
 |--- | --- | --- |
-|  Teacher-Student  |  ![](https://github.com/lupinjia/demo_imgs/blob/master/ts_demo.gif)   |   [genesis_lr/go2_ts](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts)  |
+|  Teacher-Student  |  ![](https://i.imgur.com/wjR8p4U.gif)   |   [genesis_lr/go2_ts](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ts)  |
+| Explicit Estimator |  | [genesis_lr/go2_ee](https://github.com/lupinjia/genesis_lr/tree/main/legged_gym/envs/go2/go2_ee) |
