@@ -10,7 +10,6 @@ from unitree_sdk2py.core.channel import ChannelSubscriber, ChannelFactoryInitial
 from unitree_sdk2py.idl.default import unitree_go_msg_dds__LowCmd_, unitree_go_msg_dds__LowState_
 from unitree_sdk2py.idl.unitree_go.msg.dds_ import LowCmd_ as LowCmdGo
 from unitree_sdk2py.idl.unitree_go.msg.dds_ import LowState_ as LowStateGo
-from unitree_sdk2py.idl.unitree_go.msg.dds_ import DepthImage_
 from unitree_sdk2py.utils.crc import CRC
 from unitree_sdk2py.utils.thread import RecurrentThread
 from unitree_sdk2py.comm.motion_switcher.motion_switcher_client import MotionSwitcherClient
@@ -114,10 +113,8 @@ class TSController:
         self.low_state = msg
         
     def LowCmdHandler(self):
-        locker.acquire()
         self.low_cmd.crc = CRC().Crc(self.low_cmd)
         self.lowcmd_publisher_.Write(self.low_cmd)
-        locker.release()
     
     def damping_state(self):
         create_damping_cmd(self.low_cmd)
