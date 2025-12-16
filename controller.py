@@ -329,3 +329,6 @@ class EEController(TSController):
             self.low_cmd.motor_cmd[motor_idx].kp = self.config.ctrl_kp
             self.low_cmd.motor_cmd[motor_idx].kd = self.config.ctrl_kd
             self.low_cmd.motor_cmd[motor_idx].tau = 0
+
+class WaQController(TSController):
+    pass
